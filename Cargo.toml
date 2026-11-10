@@ -1,0 +1,4 @@
+[package]
+name = "pwn"
+version = "0.1.0"
+edition = "2021"
